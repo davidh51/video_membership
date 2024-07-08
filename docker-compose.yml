@@ -13,6 +13,7 @@ services:
         
       env_file:
       - ./.env
+      
       environment:
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
