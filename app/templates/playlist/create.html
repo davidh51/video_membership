@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome | {{ super() }} {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        {% include 'playlist/sidebar.html' %}
+    </div>
+
+    <div class="col-md-9">
+
+        <h1>Add Playlist</h1>
+
+        {% include 'fragmentos/form_errors.html' %}
+
+        <form method="post"> <!-- required en input y en handlres RequestValidationError hacen doble validacion
+                                               para tener info en el input-->  
+            <div><!-- la class es BOOTSTRAP -->
+
+                <label for="title">Title</label>
+                <input class="form-control" type="text" name="title" id="title" required="required"
+                       placeholder="Title"  value="{%if title%}{{title}}{%endif%}"/>
+            </div>
+
+            <button class="btn btn-primary mt-2" type="submit">Add Playlist</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

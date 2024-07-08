@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %} Your account | {{ super() }} {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 text-center mx-auto">
+            
+        <h1>Your Account</h1>
+        {% include 'fragmentos/form_errors.html' %}
+        
+        {% if not token %}
+
+            <p>Reset password!</p>
+
+            <form method="post"><!-- required en input y en handlres RequestValidationError 
+                hacen doble validacion para tener info en el input-->  
+            <div>
+            <label for="email">Email</label> 
+            <input class="form-control" type="email" name="email" required="required" 
+            placeholder="your@email.com"/>
+            </div>
+
+            <button class="btn btn-primary mt-2" type="submit">Submit</button>
+
+            </form>
+        
+        {% elif token and not changed %}
+
+            <p>Mail confirmed, U can change your password!</p>
+
+            <form method="post">
+            <div>
+                <label for="password">Password</label>
+                <input class="form-control" type="password" name="password" 
+                        required="required" placeholder="your password"/>
+            </div>
+
+            <div>
+                <label for="password">Confirm Password</label>
+                <input class="form-control" type="password" name="confirm_password" 
+                       required="required" placeholder="Confirm your password"/>
+            <button class="btn btn-primary mt-2" type="submit">Submit</button>
+            </form>
+            </div>
+        {% elif token and changed %}
+
+            <p>Password changed</p>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

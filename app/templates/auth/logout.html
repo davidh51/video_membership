@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome | {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 text-center mx-auto">
+
+        <h1>Login </h1>
+
+        {% include 'fragmentos/form_errors.html' %}
+
+        {% if not request.user.is_authenticated %}
+        
+        <p>Login required. Go  
+            <a href="/login"> here to login </a>.
+        </p>
+
+        {% else %}
+
+        <form method="post">
+            <p>Would you like to log out?</p>
+            <button class="btn btn-primary mt-2" type="submit">Yes, logout</button>
+        </form>  
+
+        {% endif %}      
+    </div>
+</div>
+{% endblock %}

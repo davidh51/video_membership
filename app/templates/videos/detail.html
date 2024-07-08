@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{%  block content %}
+
+<div class="row">  <!--BOOTSTRAP classes-->
+    <div class="col-md-9 col-12">
+
+        <!--{{ host_id }}-->
+
+        <!--<p>{{ start_time }}</p>-->
+
+        <!-- {% include 'videos/renderers/youtube.html' %} -->
+
+        <!--{{ object.render()|safe }}-->
+
+        <!-- lude "videos/htmx/list_inline.html" -->
+
+        <div class="ratio ratio-16x9"  
+            id='yt-video' 
+            data-video-id="{{ host_id }}" 
+            data-start-time="{{ start_time }}">
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        {% if object.title %}<h5>{{ object.title }}</h5>{% endif %}  <!--{{ object }}-->
+        <code>{{ object.render() }} </code>
+    </div> 
+</div>
+
+<script>  //from library api in base
+
+    var youtubeVideoDiv = document.getElementById('yt-video')
+
+    if (youtubeVideoDiv){
+
+        var videoId = youtubeVideoDiv.getAttribute("data-video-id")
+        var defaultStartTime = 0 ;
+        var initialStartTime = parseInt(youtubeVideoDiv.getAttribute("data-start-time")) || defaultStartTime
+        var player;  //variable
+        var currentTime;
+        var isPlaying;
+        var monitorTimeOut;
+        var monitorTimeInterval = 1000;
+        var timeSinceLastSaved = 0;
+        var timeIntervalForSave = 5000;
+        var watchEventEndPoint = "/api/events/watch/";
+ 
+        function onYouTubeIframeAPIReady() {
+            // console.log("hello world");
+            player = new YT.Player('yt-video', {
+                height: '390',
+                width: '640',
+                videoId: videoId ,
+                playerVars: {
+                    'modestbranding': 1,
+                    'autoplay': 0,
+                    'start': initialStartTime,
+                    'playsinline': 1,
+                    'controls': 1
+                    //'origin': 'http://localhost:8000/'
+                    },
+                    events: {
+                    onReady : onPlayerReady,
+                    onStateChange : onPlayerStateChange
+                }
+            })
+        };
+    }
+
+    function onPlayerReady(event){
+        //player.seekTo(initialStartTime)
+        //player.playVideo()
+        //console.log(player)
+        //console.log(event)
+        //console.log("Player ready")
+    }
+
+    function monitorCurrentPlayback(){
+        currentTime = player.getCurrentTime()
+        console.log('Current time is', currentTime)
+        timeSinceLastSaved += monitorTimeInterval
+        //console.log (timeSinceLastSaved , monitorTimeInterval)
+
+        if (isPlaying){
+            monitorTimeOut = setTimeout (monitorCurrentPlayback, monitorTimeInterval)
+        }
+        if (timeSinceLastSaved > timeIntervalForSave){
+            storeWatchEvent()
+        }
+    }
+
+    function onPlayerStateChange(event){
+        //console.log(event)
+        if (event.data === YT.PlayerState.PLAYING){
+            //console.log("Is playing")
+            isPlaying = true
+            monitorCurrentPlayback()
+        }
+        else if (event.data === YT.PlayerState.PAUSED){
+            //console.log("Is paused")
+            isPlaying = false
+            clearTimeout(monitorTimeOut)
+            storeWatchEvent()
+            monitorCurrentPlayback()
+        }
+        else if (event.data === YT.PlayerState.ENDED){
+            //console.log("Is ended")
+            isPlaying = false
+            clearTimeout(monitorTimeOut)
+            monitorCurrentPlayback()
+            storeWatchEvent()
+        }
+    }
+
+    function storeWatchEvent(){
+        var duration = player.getDuration()
+        var data = {                   //Pbject in JS
+            path : window.location.pathname,
+            end_time : currentTime ,
+            start_time : initialStartTime,
+            duration : duration,
+            host_id : videoId,
+            complete : (duration * .98) < currentTime
+        }
+        timeSinceLastSaved = 0;
+
+        //console.log('saving...', data)
+
+        var reqOptions = {   //Send POST data to backend, 
+        //const response = await fetch('/watch-event',{
+            method: 'POST',
+            credentials: "include",  //'include',
+            headers:{
+               // 'Accept': 'application/json',
+                "Content-Type" : "application/json",
+                //"Access-Control-Allow-Origin": "http://localhost:3000"
+            },
+            body: JSON.stringify(data) // :str = Form(...)
+        };
+        
+        fetch(watchEventEndPoint, reqOptions)  // :dict
+        .then(response => response.json())
+        .then(data => {
+        //    console.log("Succes" , data)})
+        })
+        .catch(err => {
+        //    console.log("Error", err)
+        })
+    }
+
+</script>
+
+{%  endblock %}

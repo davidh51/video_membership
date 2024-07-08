@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{%  block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        {% include 'playlist/sidebar.html' %}
+    </div>
+
+    <div class="col-md-9">
+
+        {% if object.title %}<h1>{{ object.title }}</h1>{% endif %}  <!--{{ object }}
+
+            id="video-create-form"-->
+
+        <div id="video-container">
+            <ul class="list-group mb-3"><!-- BOOTSTRAP como en list playlist,  BOOTSTRAP de la pag elements, links buttons-->
+            {% for video in videos_list %}
+        
+                    {% with path = video.path, title = video.title %}
+
+                        <li class="list-group-item" id="video-item-{{ loop.index }}"> <!-- loopindex solamente es la i++ para 
+                                                                  {{ loop.index }}       iterar, -1 para empezar en 0 -->
+                            {% include 'videos/htmx/link.html' %}
+                            
+                            <button
+                                class="btn btn-sm btn-outline-danger mx-2" 
+                                hx-post="/playlist/{{ object.db_id }}/{{ video.host_id }}/delete"
+                                hx-target="#video-item-{{ loop.index }}"  
+                                hx-vals='{"index" : {{ loop.index -1 }} }'>
+                                Remove                 
+                            </button> <!-- la class es BOOTSTRAP danger es color -->
+                        </li>
+                    {% endwith %}
+            {% endfor %}
+            </ul>
+        </div>
+        <button
+            class="btn btn-outline-secondary"
+            hx-get="/playlist/{{ object.db_id }}/add-video"
+            hx-trigger="click"
+            hx-target="#video-container"
+            hx-swap="beforeend">
+            Add video Form
+        </button><!-- la class es BOOTSTRAP -->
+    </div>
+</div>
+
+<!--    hx-target="#video-create-form
+{% for video in videos_list %}
+    
+     <li>
+        <a href="{{ object.path }}">
+        {{ video }} 
+    </a>
+</li>
+
+{% endfor %} -->
+
+{%  endblock %}

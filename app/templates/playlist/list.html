@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{%  block content %}
+
+    <!-- 
+    <div class="list-group">   BOOTSTRAP de la pag elements, links buttons
+
+        <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+        The current link item
+        </a>
+    </div>  -->
+
+<div class="row">
+    <div class="col-md-3">
+        {% include 'playlist/sidebar.html' %}
+    </div>
+    <div class="col-md-9">
+
+            <h1>Playlists</h1>
+        
+        <!-- <div class="list-group">-->
+
+            {% for object in object_list %}  <!-- Sin bootstrap quitar class  -->
+        <!-- <li><a  href="{{ object.path }}"> {{  object.title }}</a></li>  -->
+                <div class="border rounded p-3 mb-2">
+                     <!--<a class="list-group-item list-group-item-action"-->
+                        <a href="{{ object.path }}"> {{  object.title }}</a>
+                    
+                    <button
+                        class="btn btn-sm btn-outline-danger mx-2" 
+                        hx-post="/playlist/{{ object.db_id }}/delete">
+                    Remove                 
+                    </button>
+                </div>
+            {% endfor %}
+        
+    </div>
+</div>
+{%  endblock %} 
+

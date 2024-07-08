@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Video Membership{% endblock title %}</title>
+    </head>
+
+    <body>
+        {% include 'fragmentos/nav.html' %}
+
+        {% block content %}
+        <h1>Hello World</h1>
+        {% endblock %}
+
+<!--  SIN BOOTSTRAP equivalente a pip en python, instala este paquete(youtube API) -->
+        <script>   
+            var tag = document.createElement("script");
+            tag.src ='https://www.youtube.com/iframe_api';
+            var firstScriptTag = document.getElementsByTagName("script")[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        </script>
+        
+        <script 
+            src="https://unpkg.com/htmx.org@2.0.0" 
+            integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" 
+            crossorigin="anonymous"
+        ></script>
+        
+        
+<!--   from the package use functions in JS 
+        <script>
+            function onYouTubeIframeAPIReady() {
+                console.log("hello world")
+            }
+        </script>   -->
+
+    </body>
+</html>    
+
+

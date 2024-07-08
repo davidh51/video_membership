@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome | {{ super() }} {% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md-3">
+        {% include "videos/sidebar.html" %}
+    </div>
+
+    <div class="col-md-9">
+    
+        <h1>Add Video</h1>
+
+<!--{% include 'fragmentos/form_errors.html' %}   -->
+
+        {% include 'videos/htmx/create.html' %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+<!--
+<form method="POST">
+
+    <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title"
+        placeholder="Title"
+        value="{%if title%}{{title}}{%endif%}"/>
+    </div>
+
+    <div>
+        <label for="url">YouTube Link</label>
+        <input type="text" name="url" id="url" 
+        placeholder="https://www.youtube.com/watch?v=VO8Bk03Xv90&t=78s"
+        value="{%if url%}{{url}}{%endif%}"/>
+    </div>
+
+    <button type="submit">Add Video</button>
+
+</form>
+
+% end block    -->

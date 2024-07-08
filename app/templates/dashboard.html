@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome | {{ super() }} {% endblock %}
+
+{% block content %}
+
+{% if request.user.is_authenticated and not confirm_mail %}
+
+    <div class="text-center col-md-4 col-sm-6 col-12 mx-auto">
+
+        <h1>Welcome back User</h1>
+
+        <h3> Search for content </h3>
+
+        {% include 'search/search_form.html' %}
+
+    </div>
+{% elif confirm_mail %}
+
+<div class="text-center col-md-4 col-sm-6 col-12 mx-auto">
+
+    <h1>Your Account</h1>
+
+    <h3> Email sent, confirm your email </h3>
+
+</div>
+{% endif %}
+{% endblock %}

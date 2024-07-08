@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome | {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 text-center mx-auto">
+
+        <h1>Login </h1>
+
+        {% include 'fragmentos/form_errors.html' %}
+
+        {% if request.user.is_authenticated %} <!--  logged_in %} -->  
+
+            <p>You are already logged in, would u like to 
+                <a href="/logout"> logout </a>?
+            </p>
+
+        {% else %}
+
+        <form method="post"><!-- required en input y en handlres RequestValidationError 
+                                hacen doble validacion para tener info en el input-->  
+            <div>
+                <label for="email">Email</label> 
+                <input class="form-control" type="email" name="email" required="required" 
+                        placeholder="your@email.com"/>
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input class="form-control" type="password" name="password" required="required" 
+                        placeholder="yourpassword"/>
+            </div>
+            <button class="btn btn-primary mt-2" type="submit">Login</button>
+
+        </form>
+        
+        <div class="mt-3">
+            <p><a href="/signup"> Do you need an account? </a></p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

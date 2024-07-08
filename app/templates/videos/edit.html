@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{%  block content %}
+
+<div class="row">
+
+    <div class="col-md-3">
+        {% include "videos/sidebar.html" %}
+    </div>
+ 
+    <div class="col-md-9">
+
+        <h1>Edit Video</h1>  <!-- if object.title % objtitle } else  objhost_id  endif  -->
+
+        {% include 'videos/htmx/edit.html' %}
+    </div>
+</div>
+
+{%  endblock %}

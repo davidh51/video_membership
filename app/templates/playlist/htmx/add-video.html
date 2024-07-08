@@ -1,0 +1,25 @@
+<div class="my-2 border rounded p-3 bg-light text-darkt">  <!-- la class es BOOTSTRAP  -->
+    {% include 'fragmentos/form_errors.html' %}
+ 
+    <form method="POST" action="/playlist/{{ db_id }}/add-video" hx-post="/playlist/{{ db_id }}/add-video"> 
+                                          <!-- el hx-post es la parte que pone para hacerlo htmx -->   
+        <div>
+            <label for="title">Title</label>
+            <input class="form-control" type="text" name="title" id="title"
+            required="required"
+            placeholder="Title"
+            value="{%if title%}{{title}}{%endif%}"/>
+        </div>
+
+        <div>
+            <label for="url">YouTube Link</label>
+            <input class="form-control" type="text" name="url" id="url" 
+            required="required"
+            placeholder="https://www.youtube.com/watch?v=VO8Bk03Xv90&t=78s"
+            value="{%if url%}{{url}}{%endif%}"/>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Add Video</button>
+
+    </form>
+</div>
