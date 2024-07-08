@@ -1,6 +1,6 @@
 version: "3.11.2"
 services:
-   pizza_delivery:
+   video_membership:
       build: .
       ports:
       - 8000:8000
@@ -10,10 +10,10 @@ services:
 
       #command: python3 app/run.py
       command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-        
+   
       env_file:
       - ./.env
-      
+
       environment:
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
