@@ -31,8 +31,9 @@ async def create_user(request: Request, email: str = Form(...), password:str= Fo
      #redirect_path =  data.get("path") or "/login/"
 
      #token = create_access_token({"id" : str(user.id)})
-     activate_link = f"http://localhost:8000/login/"  #{token}"
-
+     #activate_link = f"http://localhost:8000/login/"  #{token}"
+     activate_link = f"https://video-membership.onrender.com/login/"
+     
      await send_registration_mail("Activate succesfull", data.get("mail"),
                                    {"title" : "Registration succesfull",
                                    "validate_link" : activate_link,

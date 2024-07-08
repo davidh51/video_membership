@@ -36,8 +36,8 @@ async def update_password(request: Request, email: str = Form(...),
     if request.user.is_authenticated:
         
         token =  create_access_token({"id" : str(user.id)})
-        reset_link = f"http://localhost:8000/account/{token}"
-        #reset_link = f"http://localhost:8000/docs#/Reset%20Password/reset_reset__token__put"
+        #reset_link = f"http://localhost:8000/account/{token}"
+        reset_link = f"https://video-membership.onrender.com/account/{token}"
 
         await password_reset("Password Reset", email, 
                              {"title" : "Password Reset",
