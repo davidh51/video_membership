@@ -30,7 +30,7 @@ jobs:
                context: .
                file: ./Dockerfile
                push: true
-               tags: ${{ secrets.DOCKERHUB_USERNAME }}/pizza_delivery:latest
+               tags: ${{ secrets.DOCKERHUB_USERNAME }}/video_membership:latest
 
     Render-deployment:
        runs-on: ubuntu-latest
